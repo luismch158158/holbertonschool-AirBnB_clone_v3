@@ -11,7 +11,6 @@ from models.place import Place
 from models import storage
 
 
-
 @app_views.route('/status')
 def status():
     """"""
