@@ -4,11 +4,16 @@ from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask import jsonify
 
 app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
+@app.errorhandler(404)
+def not_found(error):
+    """This method return a JSON response in case throw error 404"""
+    return jsonify({"error": "Not found"})
 
 @app.teardown_appcontext
 def close_session(self):
@@ -25,4 +30,4 @@ if (__name__ == "__main__"):
     if (not port):
         port = '5000'
 
-    app.run(host=ip, port=port, threaded=True)
+    app.run(host=ip, port=port, threaded=True, debug=True)
