@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Creating app with flask"""
 from flask import Flask
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -10,10 +11,14 @@ app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
+CORS(app, resources={r"/*": {"origins": '0.0.0.0'}})
+
+
 @app.errorhandler(404)
 def not_found(error):
     """This method return a JSON response in case throw error 404"""
     return jsonify({"error": "Not found"})
+
 
 @app.teardown_appcontext
 def close_session(self):
